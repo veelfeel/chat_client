@@ -6,10 +6,18 @@ ws.addEventListener("open", () => {
 });
 
 ws.addEventListener("message", (e) => {
+  const currentDate = new Date();
+  const currentHours = currentDate.getHours();
+  const currentMinutes =
+    currentDate.getMinutes() < 10
+      ? `0${currentDate.getMinutes()}`
+      : currentDate.getMinutes();
+  const hoursAndMinutes = `${currentHours}:${currentMinutes}`;
+
   const data = JSON.parse(e.data);
   if (sender_id !== data.sender_id) {
     const messageHtml = `<div class="message message-recipient">
-                          <div class="sent-message">${data.message}</div>
+                          <div class="sent-message">${data.message} <span>${hoursAndMinutes}</span></div>
                         </div>`;
 
     document
@@ -33,9 +41,17 @@ document.getElementById("textMessage").addEventListener("keydown", (e) => {
 
 function sendMessageToTheServer() {
   if (document.getElementById("textMessage").value !== "") {
+    const currentDate = new Date();
+    const currentHours = currentDate.getHours();
+    const currentMinutes =
+      currentDate.getMinutes() < 10
+        ? `0${currentDate.getMinutes()}`
+        : currentDate.getMinutes();
+    const hoursAndMinutes = `${currentHours}:${currentMinutes}`;
+
     const message = document.getElementById("textMessage").value;
     const messageHtml = `<div class="message message-sender">
-                          <div class="sent-message">${message}</div>
+                          <div class="sent-message">${message} <span>${hoursAndMinutes}</span></div>
                         </div>`;
 
     document
