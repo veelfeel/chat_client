@@ -23,6 +23,10 @@ ws.addEventListener("message", (e) => {
     document
       .getElementById("chatBody")
       .insertAdjacentHTML("beforeend", messageHtml);
+
+    document
+      .getElementById("chatEmptyMessage")
+      .classList.add("visibility-hidden");
   }
 });
 
@@ -63,7 +67,12 @@ function sendMessageToTheServer() {
     ws.send(JSON.stringify(jsonData));
 
     document.getElementById("textMessage").value = "";
+
     hideShowSendButton();
+
+    document
+      .getElementById("chatEmptyMessage")
+      .classList.add("visibility-hidden");
   }
 }
 

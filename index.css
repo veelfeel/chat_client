@@ -27,6 +27,23 @@ body {
   justify-content: flex-end;
 }
 
+.chat-empty-message {
+  position: fixed;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
+  background-color: rebeccapurple;
+}
+
+.chat-empty-message div {
+  height: 100px;
+  width: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: red;
+}
+
 .message {
   margin-bottom: 2px;
   display: flex;
