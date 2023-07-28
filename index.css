@@ -10,7 +10,11 @@ body {
   height: 100vh;
   font-size: 14px;
   font-family: "Open Sans", sans-serif;
-  background: linear-gradient(145deg, #0ed1b3, #d8ffeb);
+  /* background: linear-gradient(145deg, #0ed1b3, #d8ffeb); */
+  background-image: url("assets/background.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .visibility-hidden {
@@ -25,10 +29,6 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  background-image: url("assets/background.jpg");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
 }
 
 .chat-empty-message {
