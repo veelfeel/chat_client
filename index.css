@@ -49,9 +49,9 @@ body {
 .message-panel {
   position: fixed;
   bottom: 0;
-  /* left: 0; */
   right: 0;
-  height: 46px;
+  height: 48px;
+  padding: 0 12px;
   width: 100%;
   display: flex;
   align-items: center;
@@ -62,16 +62,16 @@ body {
   /* box-sizing: border-box; */
   /* height: 100%; */
   width: 100%;
-  padding: 12px;
   outline: none;
   border: none;
-  font-size: inherit;
+  /* font-size: inherit; */
+  font-size: 17px;
   font-family: inherit;
 }
 
 .message-button {
   scale: 0.9;
-  padding: 12px;
+  /* padding: 12px; */
   transition: 0.3s ease;
 }
 
