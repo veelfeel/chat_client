@@ -18,13 +18,17 @@
       </div>
     </div>
     <div class="message-panel">
+      <input id="file" type="file" hidden />
+      <div id="attachFile" class="message-paper-clip-button">
+        <img width="22" height="22" src="assets/paper-cli.svg" />
+      </div>
       <input
         id="textMessage"
         type="text"
         placeholder="Введите сообщение"
         class="message-text"
       />
-      <div id="sendButton" class="message-button visibility-hidden">
+      <div id="sendButton" class="message-send-button visibility-hidden">
         <img width="22" height="22" src="assets/send.svg" />
       </div>
     </div>

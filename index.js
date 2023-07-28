@@ -87,3 +87,7 @@ function hideShowSendButton() {
         .classList.remove("visibility-hidden")
     : document.getElementById("sendButton").classList.add("visibility-hidden");
 }
+
+document.getElementById("attachFile").addEventListener("click", () => {
+  document.getElementById("file").click();
+});
