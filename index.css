@@ -17,6 +17,21 @@ body {
   background-size: cover;
 }
 
+button {
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+input[type="text"] {
+  width: 100%;
+  outline: none;
+  font-size: 17px;
+  font-family: inherit;
+}
+
 .visibility-hidden {
   visibility: hidden;
   opacity: 0;
@@ -31,7 +46,7 @@ body {
   justify-content: flex-end;
 }
 
-.chat-empty-message {
+.chat-popup {
   position: fixed;
   transform: translate(-50%, -70%);
   left: 50%;
@@ -49,14 +64,77 @@ body {
   color: white;
 }
 
-.chat-empty-message .chat-empty-title {
+.chat-popup .chat-empty-title {
   margin-bottom: 10px;
   font-size: 16px;
   font-weight: 600;
 }
 
-.chat-empty-message .chat-empty-description {
+.chat-popup .chat-empty-description {
   font-size: 13px;
+}
+
+.chat-preview {
+  width: 320px;
+  height: 360px;
+  padding: 20px;
+  align-items: flex-start;
+  justify-content: space-between;
+  background-color: white;
+  color: black;
+}
+
+.chat-preview-title {
+  margin-bottom: 10px;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.chat-preview-image-wrapper {
+  margin-bottom: 10px;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+}
+
+.chat-preview-text-input-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-preview-text-input {
+  height: 40px;
+  margin-bottom: 20px;
+  padding: 10px 0;
+  border: none;
+  border-bottom: 1px solid transparent;
+}
+
+.chat-preview-text-input:focus {
+  border-bottom: 1px solid #239be0;
+  transition: 0.3s ease;
+}
+
+.chat-preview-text-input:focus ~ label {
+  color: #239be0;
+  transition: 0.3s ease;
+}
+
+.chat-preview-bottom-buttons {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.chat-preview-bottom-buttons button:nth-child(2) {
+  margin-left: 50px;
+}
+
+.chat-preview-bottom-buttons button {
+  font-weight: 600;
+  font-size: 13px;
+  color: #239be0;
 }
 
 .message {
@@ -124,11 +202,7 @@ body {
 
 .message-text {
   height: 100%;
-  width: 100%;
-  outline: none;
   border: none;
-  font-size: 17px;
-  font-family: inherit;
 }
 
 .message-send-button {

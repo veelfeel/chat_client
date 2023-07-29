@@ -9,19 +9,40 @@
   </head>
   <body>
     <div id="chatBody" class="chat-body">
-      <div id="chatEmptyMessage" class="chat-empty-message">
+      <div id="chatEmptyMessage" class="chat-popup">
         <div class="chat-empty-title">Сообщений пока нет...</div>
         <div class="chat-empty-description">
           Отправьте первое сообщение собеседнику
         </div>
         <img width="140" height="140" src="assets/empty-chat.svg" />
       </div>
+      <div id="chatPreview" class="chat-popup chat-preview visibility-hidden">
+        <div class="chat-preview-title">Отправить изображение</div>
+        <div class="chat-preview-image-wrapper">
+          <img id="chatPreviewImage" width="280" />
+        </div>
+        <div class="chat-preview-text-input-wrapper">
+          <input
+            id="previewTextInput"
+            type="text"
+            class="chat-preview-text-input"
+          />
+          <label for="previewTextInput" class="chat-preview-signature"
+            >Подпись
+          </label>
+        </div>
+        <div class="chat-preview-bottom-buttons">
+          <button type="button">Добавить</button>
+          <button type="button">Отмена</button>
+          <button type="button">Отправить</button>
+        </div>
+      </div>
     </div>
     <div class="message-panel">
-      <input id="file" type="file" hidden />
-      <div id="attachFile" class="message-paper-clip-button">
+      <label for="file" id="attachFile" class="message-paper-clip-button">
         <img width="22" height="22" src="assets/paper-cli.svg" />
-      </div>
+      </label>
+      <input id="file" type="file" hidden />
       <input
         id="textMessage"
         type="text"
