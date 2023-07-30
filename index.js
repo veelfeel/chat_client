@@ -1,6 +1,6 @@
 const sender_id = (Date.now() / 1000) | 0;
 
-const ws = new WebSocket("ws://localhost:8080");
+const ws = new WebSocket("wss://chat-client-r2rw.onrender.com");
 ws.addEventListener("open", () => {
   console.log("we are connected");
 });
