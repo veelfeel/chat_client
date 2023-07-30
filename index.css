@@ -92,15 +92,27 @@ input[type="text"] {
 
 .chat-preview-image-wrapper {
   margin-bottom: 10px;
-  width: 200px;
-  height: 200px;
+  height: 100%;
   display: flex;
   align-items: center;
 }
 
 .chat-preview-text-input-wrapper {
+  width: 100%;
   display: flex;
   flex-direction: column;
+  position: relative;
+}
+
+.chat-preview-text-input-wrapper label {
+  position: absolute;
+  top: 20%;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 600;
+  pointer-events: none;
+  color: #989798;
+  transition: 0.3s ease;
 }
 
 .chat-preview-text-input {
@@ -108,7 +120,8 @@ input[type="text"] {
   margin-bottom: 20px;
   padding: 10px 0;
   border: none;
-  border-bottom: 1px solid transparent;
+  border-bottom: 1px solid #dedede;
+  order: 1;
 }
 
 .chat-preview-text-input:focus {
@@ -117,6 +130,8 @@ input[type="text"] {
 }
 
 .chat-preview-text-input:focus ~ label {
+  top: -10px;
+  font-size: 12px;
   color: #239be0;
   transition: 0.3s ease;
 }
@@ -171,8 +186,16 @@ input[type="text"] {
   color: rgb(163 172 182);
 }
 
+.message-sender .sent-message-image span,
+.message-recipient .sent-message-image span {
+  bottom: 8px;
+  right: 4px;
+}
+
 .message-sender .sent-message span,
-.message-recipient .sent-message span {
+.message-sender .sent-message-image span,
+.message-recipient .sent-message span,
+.message-recipient .sent-message-image span {
   position: absolute;
   font-size: 13px;
 }
@@ -182,6 +205,22 @@ input[type="text"] {
   border-radius: 14px;
   box-shadow: 0 1px 0 0 rgb(215, 215, 215);
   background-color: white;
+}
+
+.sent-message-image img {
+  border-radius: 10px;
+  display: block;
+}
+
+.sent-message-image {
+  position: relative;
+}
+
+.sent-message-image span {
+  padding: 5px 12px;
+  border-radius: 10px;
+  background-color: #0000005e;
+  color: white;
 }
 
 .message-panel {

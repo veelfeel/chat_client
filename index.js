@@ -8,7 +8,7 @@ ws.addEventListener("open", () => {
 ws.addEventListener("message", (e) => {
   const data = JSON.parse(e.data);
 
-  if (data.message !== "") {
+  if (data.message !== "" || data.imagePath !== "") {
     const currentDate = new Date();
     const currentHours = currentDate.getHours();
     const currentMinutes =
@@ -18,8 +18,18 @@ ws.addEventListener("message", (e) => {
     const hoursAndMinutes = `${currentHours}:${currentMinutes}`;
 
     const messageHtml = `<div class="message message-recipient">
-    <div class="sent-message">${data.message} <span>${hoursAndMinutes}</span></div>
-    </div>`;
+                          <div class=${
+                            data.imagePath !== ""
+                              ? "sent-message-image"
+                              : "sent-message"
+                          }>
+                            ${
+                              data.imagePath !== "" &&
+                              `<img width="240" src=${data.imagePath} />`
+                            }
+                            ${data.message} <span>${hoursAndMinutes}</span>
+                          </div>
+                        </div>`;
 
     document
       .getElementById("chatBody")
@@ -46,8 +56,16 @@ document.getElementById("textMessage").addEventListener("keydown", (e) => {
 
 function sendMessageToTheServer(file = null) {
   const message = document.getElementById("textMessage").value;
+  let imageSrc;
 
-  if (message !== "") {
+  if (file !== null) {
+    imageSrc = URL.createObjectURL(document.getElementById("file").files[0]);
+    document.getElementById("file").value = "";
+  }
+
+  document.getElementById("chatPreview").classList.add("visibility-hidden");
+
+  if (message !== "" || file !== "") {
     const currentDate = new Date();
     const currentHours = currentDate.getHours();
     const currentMinutes =
@@ -57,7 +75,16 @@ function sendMessageToTheServer(file = null) {
     const hoursAndMinutes = `${currentHours}:${currentMinutes}`;
 
     const messageHtml = `<div class="message message-sender">
-                          <div class="sent-message">${message} <span>${hoursAndMinutes}</span></div>
+                          <div class=${
+                            file !== null
+                              ? "sent-message-image"
+                              : "sent-message"
+                          }>
+                            ${
+                              file !== null &&
+                              `<img width="240" src=${imageSrc} />`
+                            }
+                            ${message} <span>${hoursAndMinutes}</span></div>
                         </div>`;
 
     document
@@ -106,15 +133,25 @@ document.getElementById("file").addEventListener("change", (e) => {
     const src = URL.createObjectURL(e.target.files[0]);
     const preview = document.getElementById("chatPreviewImage");
     preview.src = src;
-    // preview.style.display = "block";
   }
-
-  // const reader = new FileReader();
-  // reader.readAsDataURL(e.target.files[0]);
-  // reader.onload = () => {
-  //   sendMessageToTheServer({
-  //     name: e.target.files[0].name,
-  //     data: reader.result,
-  //   });
-  // };
 });
+
+document
+  .getElementById("chatPreviewSendButton")
+  .addEventListener("click", () => {
+    const reader = new FileReader();
+    reader.readAsDataURL(document.getElementById("file").files[0]);
+    reader.onload = () => {
+      sendMessageToTheServer({
+        name: document.getElementById("file").files[0].name,
+        data: reader.result,
+      });
+    };
+  });
+
+document
+  .getElementById("chatPreviewCancelButton")
+  .addEventListener("click", () => {
+    document.getElementById("chatPreview").classList.add("visibility-hidden");
+    document.getElementById("file").value = "";
+  });
