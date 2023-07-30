@@ -7,8 +7,10 @@ ws.addEventListener("open", () => {
 
 ws.addEventListener("message", (e) => {
   const data = JSON.parse(e.data);
+  const { message, type, filePath } = data;
+  console.log(message, type, filePath);
 
-  if (data.message !== "" || data.imagePath !== "") {
+  if (message !== "" || filePath !== "") {
     const currentDate = new Date();
     const currentHours = currentDate.getHours();
     const currentMinutes =
@@ -16,25 +18,30 @@ ws.addEventListener("message", (e) => {
         ? `0${currentDate.getMinutes()}`
         : currentDate.getMinutes();
     const hoursAndMinutes = `${currentHours}:${currentMinutes}`;
-
     const messageHtml = `<div class="message message-recipient">
-                          <div class=${
-                            data.imagePath !== ""
-                              ? "sent-message-image"
-                              : "sent-message"
-                          }>
-                            ${
-                              data.imagePath !== "" &&
-                              `<img width="240" src=${data.imagePath} />`
-                            }
-                            ${data.message} <span>${hoursAndMinutes}</span>
-                          </div>
-                        </div>`;
-
+                            <div class=${
+                              filePath !== ""
+                                ? "sent-message-image"
+                                : "sent-message"
+                            }>
+                              ${
+                                type === "image"
+                                  ? `<img width="240" src=${filePath} />`
+                                  : ""
+                              }
+                              ${
+                                type === "video"
+                                  ? `<video width="240" src=${filePath} controls></video>`
+                                  : ""
+                              }
+                              ${
+                                message !== "" ? `<div>${message}</div>` : ""
+                              } <span>${hoursAndMinutes}</span>
+                            </div>
+                          </div>`;
     document
       .getElementById("chatBody")
       .insertAdjacentHTML("beforeend", messageHtml);
-
     document
       .getElementById("chatEmptyMessage")
       .classList.add("visibility-hidden");
@@ -130,9 +137,19 @@ document.getElementById("file").addEventListener("change", (e) => {
       .getElementById("chatPreview")
       .classList.remove("visibility-hidden");
 
+    let previewChild = "";
     const src = URL.createObjectURL(e.target.files[0]);
-    const preview = document.getElementById("chatPreviewImage");
-    preview.src = src;
+    const type = e.target.files[0].type.split("/")[0];
+
+    if (type === "image") {
+      previewChild = `<img id="chatPreviewImage" width="280" height="186" src=${src} />`;
+    } else if (type === "video") {
+      previewChild = `<video id="chatPreviewVideo" width="280" height="186" src=${src} controls></video>`;
+    }
+
+    document
+      .getElementById("chatPreviewWrapper")
+      .insertAdjacentHTML("beforeend", previewChild);
   }
 });
 
@@ -144,6 +161,7 @@ document
     reader.onload = () => {
       sendMessageToTheServer({
         name: document.getElementById("file").files[0].name,
+        type: document.getElementById("file").files[0].type.split("/")[0],
         data: reader.result,
       });
     };
@@ -154,4 +172,5 @@ document
   .addEventListener("click", () => {
     document.getElementById("chatPreview").classList.add("visibility-hidden");
     document.getElementById("file").value = "";
+    document.getElementById("chatPreviewWrapper").innerHTML = "";
   });

@@ -90,11 +90,15 @@ input[type="text"] {
   font-size: 16px;
 }
 
-.chat-preview-image-wrapper {
+.chat-preview-wrapper {
   margin-bottom: 10px;
   height: 100%;
   display: flex;
   align-items: center;
+}
+
+.chat-preview-wrapper img {
+  object-fit: contain;
 }
 
 .chat-preview-text-input-wrapper {
