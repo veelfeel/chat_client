@@ -16,21 +16,26 @@
         </div>
         <img width="140" height="140" src="assets/empty-chat.svg" />
       </div>
-      <div id="chatPreview" class="chat-popup chat-preview visibility-hidden">
-        <div class="chat-preview-title">Отправить изображение</div>
-        <div id="chatPreviewWrapper" class="chat-preview-wrapper"></div>
-        <div class="chat-preview-text-input-wrapper">
-          <input
-            id="previewTextInput"
-            type="text"
-            class="chat-preview-text-input"
-          />
-          <label for="previewTextInput">Подпись </label>
-        </div>
-        <div class="chat-preview-bottom-buttons">
-          <button type="button">Добавить</button>
-          <button id="chatPreviewCancelButton" type="button">Отмена</button>
-          <button id="chatPreviewSendButton" type="button">Отправить</button>
+      <div
+        id="chatPreviewBackground"
+        class="chat-preview-background visibility-hidden"
+      >
+        <div id="chatPreview" class="chat-popup chat-preview">
+          <div id="chatPreviewTitle" class="chat-preview-title"></div>
+          <div id="chatPreviewWrapper" class="chat-preview-wrapper"></div>
+          <div class="chat-preview-text-input-wrapper">
+            <input
+              id="previewTextInput"
+              type="text"
+              class="chat-preview-text-input"
+            />
+            <label for="previewTextInput">Подпись</label>
+          </div>
+          <div class="chat-preview-bottom-buttons">
+            <button type="button">Добавить</button>
+            <button id="chatPreviewCancelButton" type="button">Отмена</button>
+            <button id="chatPreviewSendButton" type="button">Отправить</button>
+          </div>
         </div>
       </div>
     </div>

@@ -74,9 +74,31 @@ input[type="text"] {
   font-size: 13px;
 }
 
+.chat-preview-background {
+  z-index: 1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: #00000080;
+  transition: 0.3s ease;
+}
+
+.chat-preview-wrapper {
+  margin-bottom: 10px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.chat-preview-wrapper img {
+  object-fit: cover;
+}
+
 .chat-preview {
   width: 320px;
-  height: 360px;
+  height: 400px;
   padding: 20px;
   align-items: flex-start;
   justify-content: space-between;
@@ -88,17 +110,6 @@ input[type="text"] {
   margin-bottom: 10px;
   font-weight: 600;
   font-size: 16px;
-}
-
-.chat-preview-wrapper {
-  margin-bottom: 10px;
-  height: 100%;
-  display: flex;
-  align-items: center;
-}
-
-.chat-preview-wrapper img {
-  object-fit: contain;
 }
 
 .chat-preview-text-input-wrapper {
@@ -211,7 +222,8 @@ input[type="text"] {
   background-color: white;
 }
 
-.sent-message-image img {
+.sent-message-image img,
+.sent-message-image video {
   border-radius: 10px;
   display: block;
 }
