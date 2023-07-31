@@ -33,7 +33,7 @@ ws.addEventListener("message", (e) => {
                               }
                               ${
                                 type === "video"
-                                  ? `<video width="240" src=${filePath} poster="https://w.forfun.com/fetch/0e/0e26b1b65946ee36fac9605ae67e4ac8.jpeg" controls></video>`
+                                  ? `<video width="240" src=${filePath} preload="metadata" controls></video>`
                                   : ""
                               }
                               ${
@@ -76,7 +76,7 @@ function sendMessageToTheServer(file = null) {
                             }
                             ${
                               file !== null && file.type === "video"
-                                ? `<video width="240" src=${filePath} poster="https://w.forfun.com/fetch/0e/0e26b1b65946ee36fac9605ae67e4ac8.jpeg" controls></video>`
+                                ? `<video width="240" src=${filePath} preload="metadata" controls></video>`
                                 : ""
                             }
                             ${message} <span>${hoursAndMinutes}</span></div>
@@ -137,7 +137,7 @@ document.getElementById("file").addEventListener("change", (e) => {
     document
       .getElementById("chatPreviewBackground")
       .classList.remove("visibility-hidden");
-
+    console.log(e.target.files[0]);
     let previewChild = "";
     const src = URL.createObjectURL(e.target.files[0]);
     const type = e.target.files[0].type.split("/")[0];
@@ -149,7 +149,7 @@ document.getElementById("file").addEventListener("change", (e) => {
     } else if (type === "video") {
       document.getElementById("chatPreviewTitle").textContent =
         "Отправить видео";
-      previewChild = `<video width="280" height="226" src=${src} poster="https://w.forfun.com/fetch/0e/0e26b1b65946ee36fac9605ae67e4ac8.jpeg" controls></video>`;
+      previewChild = `<video width="280" height="226" src=${src} preload="metadata" controls></video>`;
     }
 
     document
