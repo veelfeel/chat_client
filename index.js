@@ -1,6 +1,7 @@
 const sender_id = (Date.now() / 1000) | 0;
 
 const ws = new WebSocket("wss://chat-cpwa.onrender.com");
+// const ws = new WebSocket("ws://localhost:8080");
 ws.addEventListener("open", () => {
   console.log("we are connected");
 });
