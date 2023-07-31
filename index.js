@@ -149,7 +149,7 @@ document.getElementById("file").addEventListener("change", (e) => {
     } else if (type === "video") {
       document.getElementById("chatPreviewTitle").textContent =
         "Отправить видео";
-      previewChild = `<video width="280" height="226" src=${src} muted autoplay playsinline controls></video>`;
+      previewChild = `<video width="280" height="226" src=${src} controls></video>`;
     }
 
     document
