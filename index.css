@@ -119,17 +119,6 @@ input[type="text"] {
   position: relative;
 }
 
-.chat-preview-text-input-wrapper label {
-  position: absolute;
-  top: 20%;
-  text-align: left;
-  font-size: 13px;
-  font-weight: 600;
-  pointer-events: none;
-  color: #989798;
-  transition: 0.3s ease;
-}
-
 .chat-preview-text-input {
   height: 40px;
   margin-bottom: 20px;
@@ -144,10 +133,27 @@ input[type="text"] {
   transition: 0.3s ease;
 }
 
-.chat-preview-text-input:focus ~ label {
+.chat-preview-text-input:focus ~ .chat-preview-text-label {
+  color: #239be0;
+  transition: 0.3s ease;
+}
+
+.chat-preview-text-label {
+  position: absolute;
+  top: 20%;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 600;
+  pointer-events: none;
+  color: #989798;
+}
+
+.chat-preview-text-label--active {
   top: -10px;
   font-size: 12px;
-  color: #239be0;
+}
+
+.chat-preview-text-label--transition {
   transition: 0.3s ease;
 }
 

@@ -2,16 +2,16 @@ const sender_id = (Date.now() / 1000) | 0;
 
 const ws = new WebSocket("wss://chat-cpwa.onrender.com");
 // const ws = new WebSocket("ws://localhost:8080");
+
 ws.addEventListener("open", () => {
   console.log("we are connected");
 });
-console.log(1);
 
 ws.addEventListener("message", (e) => {
   hideChatEmptyMessage();
 
   const data = JSON.parse(e.data);
-  const { message, type, filePath } = data;
+  const { message, fileType, filePath } = data;
 
   const currentDate = new Date();
   const currentHours = currentDate.getHours();
@@ -22,17 +22,17 @@ ws.addEventListener("message", (e) => {
   const hoursAndMinutes = `${currentHours}:${currentMinutes}`;
   const messageHtml = `<div class="message message-recipient">
                             <div class=${
-                              filePath !== ""
+                              filePath !== null
                                 ? "sent-message-image"
                                 : "sent-message"
                             }>
                               ${
-                                type === "image"
+                                fileType === "image"
                                   ? `<img width="240" src=${filePath} />`
                                   : ""
                               }
                               ${
-                                type === "video"
+                                fileType === "video"
                                   ? `<video width="240" src=${filePath} muted autoplay playsinline controls></video>`
                                   : ""
                               }
@@ -88,7 +88,7 @@ function sendMessageToTheServer(file = null) {
 
   document.getElementById("textMessage").value = "";
 
-  const jsonData = { sender_id: sender_id, message: message, file };
+  const jsonData = { sender_id, message, file };
 
   ws.send(JSON.stringify(jsonData));
 }
@@ -116,7 +116,10 @@ document.getElementById("textMessage").addEventListener("keydown", (e) => {
     e.code == "Enter" &&
     document.getElementById("textMessage").value !== ""
   ) {
+    hideChatEmptyMessage();
     sendMessageToTheServer();
+
+    document.getElementById("sendButton").classList.add("visibility-hidden");
   }
 });
 
@@ -128,16 +131,29 @@ document.getElementById("textMessage").addEventListener("input", () => {
   }
 });
 
-document
-  .getElementById("sendButton")
-  .addEventListener("click", sendMessageToTheServer);
+document.getElementById("sendButton").addEventListener("click", () => {
+  hideChatEmptyMessage();
+  sendMessageToTheServer();
+
+  document.getElementById("sendButton").classList.add("visibility-hidden");
+  document.getElementById("textMessage").focus();
+});
 
 document.getElementById("file").addEventListener("change", (e) => {
-  if (e.target.files[0]) {
+  setTimeout(() => {
+    document.getElementById("previewTextInput").focus();
+  }, 100);
+
+  const chatPanelMessage = document.getElementById("textMessage").value;
+  if (chatPanelMessage !== "") {
     document
-      .getElementById("chatPreviewBackground")
-      .classList.remove("visibility-hidden");
-    console.log(e.target.files[0]);
+      .getElementById("previewTextLabel")
+      .classList.add("chat-preview-text-label--active");
+    document.getElementById("previewTextInput").value = chatPanelMessage;
+    document.getElementById("textMessage").value = "";
+  }
+
+  if (e.target.files[0]) {
     let previewChild = "";
     const src = URL.createObjectURL(e.target.files[0]);
     const type = e.target.files[0].type.split("/")[0];
@@ -155,12 +171,37 @@ document.getElementById("file").addEventListener("change", (e) => {
     document
       .getElementById("chatPreviewWrapper")
       .insertAdjacentHTML("beforeend", previewChild);
+
+    document
+      .getElementById("chatPreviewBackground")
+      .classList.remove("visibility-hidden");
   }
+});
+
+document.getElementById("previewTextInput").addEventListener("focus", (e) => {
+  e.target.nextElementSibling.classList.add("chat-preview-text-label--active");
+});
+
+document.getElementById("previewTextInput").addEventListener("blur", (e) => {
+  if (e.target.value !== "") {
+    return;
+  }
+
+  e.target.nextElementSibling.classList.add(
+    "chat-preview-text-label--transition"
+  );
+  e.target.nextElementSibling.classList.remove(
+    "chat-preview-text-label--active"
+  );
 });
 
 document
   .getElementById("chatPreviewCancelButton")
   .addEventListener("click", () => {
+    document.getElementById("textMessage").value =
+      document.getElementById("previewTextInput").value;
+    document.getElementById("textMessage").focus();
+
     hideChatPreviewBackground();
 
     document.getElementById("file").value = "";
