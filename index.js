@@ -33,7 +33,7 @@ ws.addEventListener("message", (e) => {
                               }
                               ${
                                 type === "video"
-                                  ? `<video width="240" src=${filePath} preload="metadata" controls></video>`
+                                  ? `<video width="240" src=${filePath} muted autoplay playsinline controls></video>`
                                   : ""
                               }
                               ${
@@ -76,7 +76,7 @@ function sendMessageToTheServer(file = null) {
                             }
                             ${
                               file !== null && file.type === "video"
-                                ? `<video width="240" src=${filePath} preload="metadata" controls></video>`
+                                ? `<video width="240" src=${filePath} muted autoplay playsinline controls></video>`
                                 : ""
                             }
                             ${message} <span>${hoursAndMinutes}</span></div>
@@ -149,7 +149,7 @@ document.getElementById("file").addEventListener("change", (e) => {
     } else if (type === "video") {
       document.getElementById("chatPreviewTitle").textContent =
         "Отправить видео";
-      previewChild = `<video width="280" height="226" src=${src} preload="metadata" controls></video>`;
+      previewChild = `<video width="280" height="226" src=${src} muted autoplay playsinline controls></video>`;
     }
 
     document
