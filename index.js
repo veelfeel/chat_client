@@ -5,6 +5,7 @@ const ws = new WebSocket("wss://chat-cpwa.onrender.com");
 ws.addEventListener("open", () => {
   console.log("we are connected");
 });
+console.log(1);
 
 ws.addEventListener("message", (e) => {
   hideChatEmptyMessage();
