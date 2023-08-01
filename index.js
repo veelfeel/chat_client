@@ -23,7 +23,7 @@ ws.addEventListener("message", (e) => {
   const messageHtml = `<div class="message message-recipient">
                             <div class=${
                               filePath !== null
-                                ? "sent-message-image"
+                                ? "sent-file-message"
                                 : "sent-message"
                             }>
                               ${
@@ -46,10 +46,9 @@ ws.addEventListener("message", (e) => {
     .insertAdjacentHTML("beforeend", messageHtml);
 });
 
-function sendMessageToTheServer(file = null) {
-  const message = document.getElementById("textMessage").value;
+function sendMessageToTheServer(message, file = null) {
   let filePath;
-
+  console.log(message === "");
   if (file !== null) {
     filePath = URL.createObjectURL(document.getElementById("file").files[0]);
     document.getElementById("file").value = "";
@@ -65,10 +64,16 @@ function sendMessageToTheServer(file = null) {
 
   const messageHtml = `<div class="message message-sender">
                           <div class=${
-                            file !== null
-                              ? "sent-message-image"
-                              : "sent-message"
-                          }>
+                            file !== null && message !== ""
+                              ? "sent-file-message"
+                              : file !== null && message === ""
+                              ? "sent-file"
+                              : file === null && message !== ""
+                              ? "sent-message"
+                              : ""
+                          }
+                         
+                          >
                             ${
                               file !== null && file.type === "image"
                                 ? `<img width="240" src=${filePath} />`
@@ -79,8 +84,9 @@ function sendMessageToTheServer(file = null) {
                                 ? `<video width="240" src=${filePath} muted autoplay playsinline controls></video>`
                                 : ""
                             }
-                            ${message} <span>${hoursAndMinutes}</span></div>
-                        </div>`;
+                            ${message} <span>${hoursAndMinutes}</span>
+                        </div>
+                      </div>`;
 
   document
     .getElementById("chatBody")
@@ -112,28 +118,31 @@ function hideChatPreviewBackground() {
 }
 
 document.getElementById("textMessage").addEventListener("keydown", (e) => {
-  if (
-    e.code == "Enter" &&
-    document.getElementById("textMessage").value !== ""
-  ) {
+  const message = document.getElementById("textMessage").value;
+
+  if (e.code == "Enter" && message !== "") {
     hideChatEmptyMessage();
-    sendMessageToTheServer();
+    sendMessageToTheServer(message);
 
     document.getElementById("sendButton").classList.add("visibility-hidden");
   }
 });
 
 document.getElementById("textMessage").addEventListener("input", () => {
+  const sendButton = document.getElementById("sendButton");
+
   if (document.getElementById("textMessage").value !== "") {
-    document.getElementById("sendButton").classList.remove("visibility-hidden");
+    sendButton.classList.remove("visibility-hidden");
   } else {
-    document.getElementById("sendButton").classList.add("visibility-hidden");
+    sendButton.classList.add("visibility-hidden");
   }
 });
 
 document.getElementById("sendButton").addEventListener("click", () => {
+  const message = document.getElementById("textMessage").value;
+
   hideChatEmptyMessage();
-  sendMessageToTheServer();
+  sendMessageToTheServer(message);
 
   document.getElementById("sendButton").classList.add("visibility-hidden");
   document.getElementById("textMessage").focus();
@@ -214,10 +223,12 @@ document
     hideChatEmptyMessage();
     hideChatPreviewBackground();
 
+    const message = document.getElementById("previewTextInput").value;
+
     const reader = new FileReader();
     reader.readAsDataURL(document.getElementById("file").files[0]);
     reader.onload = () => {
-      sendMessageToTheServer({
+      sendMessageToTheServer(message, {
         name: document.getElementById("file").files[0].name,
         type: document.getElementById("file").files[0].type.split("/")[0],
         data: reader.result,

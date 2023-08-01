@@ -207,38 +207,44 @@ input[type="text"] {
   color: rgb(163 172 182);
 }
 
-.message-sender .sent-message-image span,
-.message-recipient .sent-message-image span {
+.message-sender .sent-file span,
+.message-recipient .sent-file span,
+.message-recipient .sent-file-message span {
   bottom: 8px;
   right: 4px;
 }
 
 .message-sender .sent-message span,
-.message-sender .sent-message-image span,
+.message-sender .sent-file span,
+.message-sender .sent-file-message div span,
 .message-recipient .sent-message span,
-.message-recipient .sent-message-image span {
+.message-recipient .sent-file span,
+.message-recipient .sent-file-message span {
   position: absolute;
   font-size: 13px;
 }
 
 .sent-message {
-  position: relative;
   border-radius: 14px;
   box-shadow: 0 1px 0 0 rgb(215, 215, 215);
   background-color: white;
 }
 
-.sent-message-image img,
-.sent-message-image video {
+.sent-file img,
+.sent-file-message img,
+.sent-file video,
+.sent-file-message video {
   border-radius: 10px;
   display: block;
 }
 
-.sent-message-image {
+.sent-file,
+.sent-message,
+.sent-file-message {
   position: relative;
 }
 
-.sent-message-image span {
+.sent-file span {
   padding: 5px 12px;
   border-radius: 10px;
   background-color: #0000005e;
