@@ -28,27 +28,31 @@ ws.addEventListener("message", (e) => {
                             }>
                               ${
                                 fileType === "image"
-                                  ? `<img width="240" src=${filePath} />`
+                                  ? `<img width="240" height="160" src=${filePath} />`
                                   : ""
                               }
                               ${
                                 fileType === "video"
-                                  ? `<video width="240" src=${filePath} muted autoplay playsinline controls></video>`
+                                  ? `<video width="240" height="160" src=${filePath} muted autoplay playsinline controls></video>`
                                   : ""
                               }
-                              ${
-                                message !== "" ? `<div>${message}</div>` : ""
-                              } <span>${hoursAndMinutes}</span>
+                               <div ${
+                                 filePath !== null
+                                   ? `class="sent-file-text"`
+                                   : ""
+                               }>${message}</div><span>${hoursAndMinutes}</span>
                             </div>
                           </div>`;
   document
     .getElementById("chatBody")
     .insertAdjacentHTML("beforeend", messageHtml);
+
+  document.getElementById("chatBody").scrollIntoView(false);
 });
 
 function sendMessageToTheServer(message, file = null) {
   let filePath;
-  console.log(message === "");
+
   if (file !== null) {
     filePath = URL.createObjectURL(document.getElementById("file").files[0]);
     document.getElementById("file").value = "";
@@ -76,21 +80,25 @@ function sendMessageToTheServer(message, file = null) {
                           >
                             ${
                               file !== null && file.type === "image"
-                                ? `<img width="240" src=${filePath} />`
+                                ? `<img width="240" height="160" src=${filePath} />`
                                 : ""
                             }
                             ${
                               file !== null && file.type === "video"
-                                ? `<video width="240" src=${filePath} muted autoplay playsinline controls></video>`
+                                ? `<video width="240" height="160" src=${filePath} muted autoplay playsinline controls></video>`
                                 : ""
                             }
-                            ${message} <span>${hoursAndMinutes}</span>
+                            <div ${
+                              file !== null ? `class="sent-file-text"` : ""
+                            }>${message}</div><span>${hoursAndMinutes}</span>
                         </div>
                       </div>`;
 
   document
     .getElementById("chatBody")
     .insertAdjacentHTML("beforeend", messageHtml);
+
+  document.getElementById("chatBody").scrollIntoView(false);
 
   document.getElementById("textMessage").value = "";
 
@@ -224,7 +232,6 @@ document
     hideChatPreviewBackground();
 
     const message = document.getElementById("previewTextInput").value;
-
     const reader = new FileReader();
     reader.readAsDataURL(document.getElementById("file").files[0]);
     reader.onload = () => {

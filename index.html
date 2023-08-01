@@ -8,38 +8,42 @@
     <link rel="stylesheet" href="index.css" />
   </head>
   <body>
-    <div id="chatBody" class="chat-body">
-      <div id="chatEmptyMessage" class="chat-popup">
-        <div class="chat-empty-title">Сообщений пока нет...</div>
-        <div class="chat-empty-description">
-          Отправьте первое сообщение собеседнику
-        </div>
-        <img width="140" height="140" src="assets/empty-chat.svg" />
-      </div>
-      <div
-        id="chatPreviewBackground"
-        class="chat-preview-background visibility-hidden"
-      >
-        <div id="chatPreview" class="chat-popup chat-preview">
-          <div id="chatPreviewTitle" class="chat-preview-title"></div>
-          <div id="chatPreviewWrapper" class="chat-preview-wrapper"></div>
-          <div class="chat-preview-text-input-wrapper">
-            <input
-              id="previewTextInput"
-              type="text"
-              class="chat-preview-text-input"
-            />
-            <label
-              id="previewTextLabel"
-              for="previewTextInput"
-              class="chat-preview-text-label"
-              >Подпись</label
-            >
+    <div class="chat-wrapper">
+      <div id="chatBody" class="chat-body">
+        <div id="chatEmptyMessage" class="chat-popup">
+          <div class="chat-empty-title">Сообщений пока нет...</div>
+          <div class="chat-empty-description">
+            Отправьте первое сообщение собеседнику
           </div>
-          <div class="chat-preview-bottom-buttons">
-            <button type="button">Добавить</button>
-            <button id="chatPreviewCancelButton" type="button">Отмена</button>
-            <button id="chatPreviewSendButton" type="button">Отправить</button>
+          <img width="140" height="140" src="assets/empty-chat.svg" />
+        </div>
+        <div
+          id="chatPreviewBackground"
+          class="chat-preview-background visibility-hidden"
+        >
+          <div id="chatPreview" class="chat-popup chat-preview">
+            <div id="chatPreviewTitle" class="chat-preview-title"></div>
+            <div id="chatPreviewWrapper" class="chat-preview-wrapper"></div>
+            <div class="chat-preview-text-input-wrapper">
+              <input
+                id="previewTextInput"
+                type="text"
+                class="chat-preview-text-input"
+              />
+              <label
+                id="previewTextLabel"
+                for="previewTextInput"
+                class="chat-preview-text-label"
+                >Подпись</label
+              >
+            </div>
+            <div class="chat-preview-bottom-buttons">
+              <button type="button">Добавить</button>
+              <button id="chatPreviewCancelButton" type="button">Отмена</button>
+              <button id="chatPreviewSendButton" type="button">
+                Отправить
+              </button>
+            </div>
           </div>
         </div>
       </div>

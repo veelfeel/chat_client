@@ -5,13 +5,14 @@
 }
 
 body {
+  overflow: hidden;
   margin: 0;
   padding: 0;
-  height: 100vh;
+  min-height: 100vh;
   font-size: 14px;
   font-family: "Open Sans", sans-serif;
-  /* background: linear-gradient(145deg, #0ed1b3, #d8ffeb); */
-  background-image: url("assets/background.jpg");
+  background: linear-gradient(145deg, #0ed1b3, #d8ffeb);
+  /* background-image: url("assets/background.jpg"); */
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -38,8 +39,13 @@ input[type="text"] {
   transition: 0.3s ease;
 }
 
+.chat-wrapper {
+  height: 85vh;
+  overflow: auto;
+}
+
 .chat-body {
-  height: calc(100vh - 48px);
+  min-height: 100%;
   padding: 10px;
   display: flex;
   flex-direction: column;
@@ -208,15 +214,20 @@ input[type="text"] {
 }
 
 .message-sender .sent-file span,
-.message-recipient .sent-file span,
-.message-recipient .sent-file-message span {
-  bottom: 8px;
+.message-recipient .sent-file span {
   right: 4px;
+  bottom: 8px;
+}
+
+.message-sender .sent-file-message span,
+.message-recipient .sent-file-message span {
+  right: 4px;
+  bottom: 4px;
 }
 
 .message-sender .sent-message span,
 .message-sender .sent-file span,
-.message-sender .sent-file-message div span,
+.message-sender .sent-file-message span,
 .message-recipient .sent-message span,
 .message-recipient .sent-file span,
 .message-recipient .sent-file-message span {
@@ -231,10 +242,14 @@ input[type="text"] {
 }
 
 .sent-file img,
-.sent-file-message img,
-.sent-file video,
-.sent-file-message video {
+.sent-file video {
   border-radius: 10px;
+  display: block;
+}
+
+.sent-file-message img,
+.sent-file-message video {
+  border-radius: 10px 10px 0 0;
   display: block;
 }
 
@@ -242,6 +257,12 @@ input[type="text"] {
 .sent-message,
 .sent-file-message {
   position: relative;
+}
+
+.sent-file-text {
+  padding: 8px 56px 8px 12px;
+  border-radius: 0 0 10px 10px;
+  background-color: #effdde;
 }
 
 .sent-file span {
