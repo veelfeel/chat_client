@@ -1,54 +1,143 @@
 const sender_id = (Date.now() / 1000) | 0;
 
-const ws = new WebSocket("wss://chat-cpwa.onrender.com");
-// const ws = new WebSocket("ws://localhost:8080");
+// const ws = new WebSocket("wss://chat-cpwa.onrender.com");
+const ws = new WebSocket("ws://localhost:8080");
 
 ws.addEventListener("open", () => {
   console.log("we are connected");
 });
 
-ws.addEventListener("message", (e) => {
+ws.addEventListener("message", async (e) => {
   hideChatEmptyMessage();
 
   const data = JSON.parse(e.data);
   const { message, fileType, filePath } = data;
+  const newFile = await loadFile(fileType, filePath);
 
-  const currentDate = new Date();
-  const currentHours = currentDate.getHours();
-  const currentMinutes =
-    currentDate.getMinutes() < 10
-      ? `0${currentDate.getMinutes()}`
-      : currentDate.getMinutes();
-  const hoursAndMinutes = `${currentHours}:${currentMinutes}`;
-  const messageHtml = `<div class="message message-recipient">
-                            <div class=${
-                              filePath !== null
-                                ? "sent-file-message"
-                                : "sent-message"
-                            }>
-                              ${
-                                fileType === "image"
-                                  ? `<img width="240" height="160" src=${filePath} />`
-                                  : ""
-                              }
-                              ${
-                                fileType === "video"
-                                  ? `<video width="240" height="160" src=${filePath} muted autoplay playsinline controls></video>`
-                                  : ""
-                              }
-                               <div ${
-                                 filePath !== null
-                                   ? `class="sent-file-text"`
-                                   : ""
-                               }>${message}</div><span>${hoursAndMinutes}</span>
-                            </div>
-                          </div>`;
+  // const messageHtml = `<div class="message message-recipient">
+  //                           <div class=${
+  //                             filePath === null && message !== ""
+  //                               ? "sent-message"
+  //                               : ""
+  //                           }
+  //                           ${
+  //                             filePath !== null && message === ""
+  //                               ? "sent-file"
+  //                               : ""
+  //                           }
+  //                           ${
+  //                             filePath !== null && message !== ""
+  //                               ? "sent-file-message"
+  //                               : ""
+  //                           }
+  //                           >
+  //                             ${
+  //                               fileType === "image"
+  //                                 ? // ? `<img width="240" height="160" src=${newPath} />`
+  //                                   newPath
+  //                                 : ""
+  //                             }
+  //                             ${
+  //                               fileType === "video"
+  //                                 ? `<video width="240" height="160" src=${filePath} muted autoplay playsinline controls></video>`
+  //                                 : ""
+  //                             }
+  //                             ${
+  //                               filePath === null && message !== ""
+  //                                 ? message
+  //                                 : ""
+  //                             }
+  //                             ${filePath !== null && message === "" ? "" : ""}
+  //                             ${
+  //                               filePath !== null && message !== ""
+  //                                 ? `<div class="sent-file-text">${message}</div>`
+  //                                 : ""
+  //                             }
+  //                             <span>${getMessageTime()}</span>
+  //                           </div>
+  //                         </div>`;
+  const messageHtml = newFile;
+
   document
     .getElementById("chatBody")
     .insertAdjacentHTML("beforeend", messageHtml);
 
   document.getElementById("chatBody").scrollIntoView(false);
+
+  // const textHtml =
+  //   message !== "" ? `<div class="sent-file-text">${message}</div>` : "";
+
+  // if (fileType !== null) {
+  //   let fileHtml = "";
+
+  //   const createElement = document.createElement(
+  //     `${fileType === "image" ? "img" : "video"}`
+  //   );
+  //   createElement.src = filePath;
+  //   createElement.addEventListener(
+  //     fileType === "image" ? "load" : "loadeddata",
+  //     () => {
+  //       fileHtml =
+  //         fileType === "image"
+  //           ? `<img width="240" height="160" src=${filePath} />`
+  //           : `<video width="240" height="160" src=${filePath} muted autoplay playsinline controls></video>`;
+
+  //       const messageHtml = `<div class="message message-recipient">
+  //                             <div class=${
+  //                               filePath !== null && message !== ""
+  //                                 ? "sent-file-message"
+  //                                 : "sent-message"
+  //                             }>
+  //                               ${fileHtml}
+  //                               ${textHtml}
+  //                               <span>${getMessageTime()}</span>
+  //                             </div>
+  //                           </div>`;
+
+  //       document
+  //         .getElementById("chatBody")
+  //         .insertAdjacentHTML("beforeend", messageHtml);
+
+  //       document.getElementById("chatBody").scrollIntoView(false);
+  //     }
+  //   );
+  // }
 });
+
+const loadFile = (fileType, filePath) => {
+  return new Promise((resolve, reject) => {
+    let html = "";
+    const createElement = document.createElement(
+      `${fileType === "image" ? "img" : "video"}`
+    );
+    createElement.src = filePath;
+    if (createElement.tagName === "IMG") {
+      html = `<img width="240" height="160" src=${filePath} />`;
+    }
+
+    if (createElement.tagName === "VIDEO") {
+      html = `<video width="240" height="160" src=${filePath} muted autoplay playsinline controls></video>`;
+    }
+
+    createElement.addEventListener(
+      fileType === "image" ? "load" : "loadeddata",
+      () => {
+        resolve(html);
+      }
+    );
+    createElement.addEventListener("error", (e) => {
+      reject(e);
+    });
+    // const img = new Image();
+    // img.src = filePath;
+    // img.onload = () => {
+    //   resolve(img);
+    // };
+    // img.onerror = (e) => {
+    //   reject(e);
+    // };
+  });
+};
 
 function sendMessageToTheServer(message, file = null) {
   let filePath;
@@ -58,53 +147,86 @@ function sendMessageToTheServer(message, file = null) {
     document.getElementById("file").value = "";
   }
 
+  // const currentDate = new Date();
+  // const currentHours = currentDate.getHours();
+  // const currentMinutes =
+  //   currentDate.getMinutes() < 10
+  //     ? `0${currentDate.getMinutes()}`
+  //     : currentDate.getMinutes();
+  // const hoursAndMinutes = `${currentHours}:${currentMinutes}`;
+
+  // const messageHtml = `<div class="message message-sender">
+  //                         <div class=${
+  //                           file !== null && message !== ""
+  //                             ? "sent-file-message"
+  //                             : file !== null && message === ""
+  //                             ? "sent-file"
+  //                             : file === null && message !== ""
+  //                             ? "sent-message"
+  //                             : ""
+  //                         }
+
+  //                         >
+  //                           ${
+  //                             file !== null && file.type === "image"
+  //                               ? `<img width="240" height="160" src=${filePath} />`
+  //                               : ""
+  //                           }
+  //                           ${
+  //                             file !== null && file.type === "video"
+  //                               ? `<video width="240" height="160" src=${filePath} muted autoplay playsinline controls></video>`
+  //                               : ""
+  //                           }
+  //                           <div ${
+  //                             file !== null ? `class="sent-file-text"` : ""
+  //                           }>${message}</div><span>${hoursAndMinutes}</span>
+  //                       </div>
+  //                     </div>`;
+
+  // document
+  //   .getElementById("chatBody")
+  //   .insertAdjacentHTML("beforeend", messageHtml);
+
+  document.getElementById("chatBody").scrollIntoView(false);
+
+  // document.getElementById("textMessage").value = "";
+
+  const jsonData = { sender_id, message, file };
+
+  ws.send(JSON.stringify(jsonData));
+}
+
+// function renderHtml(fileType, filePath, message) {
+//   let fileHtml = "";
+//   let textHtml = "";
+
+//   if (fileType === null && message !== "") {
+//     console.log("файла нет, сообщение есть");
+//   }
+
+//   if (fileType !== null && message === "") {
+//     console.log("файл есть, сообщения нет");
+//   }
+
+//   if (fileType !== null && message !== "") {
+//     console.log("файл есть, сообщение есть");
+//   }
+
+//   const messageHtml = `<div class="message message-sender"></div>`;
+//   document
+//     .getElementById("chatBody")
+//     .insertAdjacentHTML("beforeend", messageHtml);
+// }
+
+function getMessageTime() {
   const currentDate = new Date();
   const currentHours = currentDate.getHours();
   const currentMinutes =
     currentDate.getMinutes() < 10
       ? `0${currentDate.getMinutes()}`
       : currentDate.getMinutes();
-  const hoursAndMinutes = `${currentHours}:${currentMinutes}`;
 
-  const messageHtml = `<div class="message message-sender">
-                          <div class=${
-                            file !== null && message !== ""
-                              ? "sent-file-message"
-                              : file !== null && message === ""
-                              ? "sent-file"
-                              : file === null && message !== ""
-                              ? "sent-message"
-                              : ""
-                          }
-                         
-                          >
-                            ${
-                              file !== null && file.type === "image"
-                                ? `<img width="240" height="160" src=${filePath} />`
-                                : ""
-                            }
-                            ${
-                              file !== null && file.type === "video"
-                                ? `<video width="240" height="160" src=${filePath} muted autoplay playsinline controls></video>`
-                                : ""
-                            }
-                            <div ${
-                              file !== null ? `class="sent-file-text"` : ""
-                            }>${message}</div><span>${hoursAndMinutes}</span>
-                        </div>
-                      </div>`;
-
-  document
-    .getElementById("chatBody")
-    .insertAdjacentHTML("beforeend", messageHtml);
-
-  document.getElementById("chatBody").scrollIntoView(false);
-
-  document.getElementById("textMessage").value = "";
-
-  const jsonData = { sender_id, message, file };
-
-  ws.send(JSON.stringify(jsonData));
+  return `${currentHours}:${currentMinutes}`;
 }
 
 function hideChatEmptyMessage() {

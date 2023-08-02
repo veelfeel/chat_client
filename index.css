@@ -11,7 +11,7 @@ body {
   min-height: 100vh;
   font-size: 14px;
   font-family: "Open Sans", sans-serif;
-  background: linear-gradient(145deg, #0ed1b3, #d8ffeb);
+  background: linear-gradient(180deg, #088370, #d8ffe7);
   /* background-image: url("assets/background.jpg"); */
   background-position: center;
   background-repeat: no-repeat;
@@ -40,7 +40,8 @@ input[type="text"] {
 }
 
 .chat-wrapper {
-  height: 85vh;
+  /* height: 85vh; */
+  height: calc(100vh - 48px);
   overflow: auto;
 }
 
@@ -221,7 +222,7 @@ input[type="text"] {
 
 .message-sender .sent-file-message span,
 .message-recipient .sent-file-message span {
-  right: 4px;
+  right: 12px;
   bottom: 4px;
 }
 
@@ -270,6 +271,10 @@ input[type="text"] {
   border-radius: 10px;
   background-color: #0000005e;
   color: white;
+}
+
+.sent-file-message span {
+  color: #5fbb53;
 }
 
 .message-panel {
