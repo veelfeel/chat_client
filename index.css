@@ -12,7 +12,6 @@ body {
   font-size: 14px;
   font-family: "Open Sans", sans-serif;
   background: linear-gradient(180deg, #088370, #d8ffe7);
-  /* background-image: url("assets/background.jpg"); */
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -40,7 +39,6 @@ input[type="text"] {
 }
 
 .chat-wrapper {
-  /* height: 85vh; */
   height: calc(100vh - 48px);
   overflow: auto;
 }
@@ -188,6 +186,11 @@ input[type="text"] {
   flex-direction: column;
 }
 
+.message img,
+.message video {
+  object-fit: cover;
+}
+
 .message img {
   border-radius: 10px;
 }
@@ -196,7 +199,8 @@ input[type="text"] {
   border-radius: 10px 10px 0 0;
 }
 
-.message img + .message-text {
+.message img + .message-text,
+.message video + .message-text {
   width: 100%;
   border-radius: 0 0 14px 14px;
 }
@@ -219,13 +223,14 @@ input[type="text"] {
 }
 
 .message-recipient {
-  justify-content: flex-start;
+  align-self: flex-start;
 }
 
 .message-text {
   width: max-content;
   border-radius: 14px;
-  background-color: #effdde;
+  box-shadow: 0 1px 0 0 rgb(215, 215, 215);
+  background-color: white;
 }
 
 .message-recipient .message-text {
@@ -233,91 +238,16 @@ input[type="text"] {
 }
 
 .message-sender {
-  justify-content: flex-end;
+  align-self: flex-end;
 }
 
-.message-sender .sent-message {
+.message-sender .message-text {
   padding: 8px 56px 8px 12px;
   background-color: #effdde;
 }
 
-.message-sender .sent-message span {
-  bottom: 5px;
-  right: 14px;
-  color: rgb(90 185 78);
-}
-
-.message-recipient .sent-message {
-  padding: 8px 56px 8px 12px;
-}
-
-.message-recipient .sent-message span {
-  bottom: 5px;
-  right: 14px;
-  color: rgb(163 172 182);
-}
-
-.message-sender .sent-file span,
-.message-recipient .sent-file span {
-  right: 4px;
-  bottom: 8px;
-}
-
-.message-sender .sent-file-message span,
-.message-recipient .sent-file-message span {
-  right: 12px;
-  bottom: 4px;
-}
-
-.message-sender .sent-message span,
-.message-sender .sent-file span,
-.message-sender .sent-file-message span,
-.message-recipient .sent-message span,
-.message-recipient .sent-file span,
-.message-recipient .sent-file-message span {
-  position: absolute;
-  font-size: 13px;
-}
-
-.sent-message {
-  border-radius: 14px;
-  box-shadow: 0 1px 0 0 rgb(215, 215, 215);
-  background-color: white;
-}
-
-.sent-file img,
-.sent-file video {
-  border-radius: 10px;
-  display: block;
-}
-
-.sent-file-message img,
-.sent-file-message video {
-  border-radius: 10px 10px 0 0;
-  display: block;
-}
-
-.sent-file,
-.sent-message,
-.sent-file-message {
-  position: relative;
-}
-
-.sent-file-text {
-  padding: 8px 56px 8px 12px;
-  border-radius: 0 0 10px 10px;
-  background-color: #effdde;
-}
-
-.sent-file span {
-  padding: 5px 12px;
-  border-radius: 10px;
-  background-color: #0000005e;
-  color: white;
-}
-
-.sent-file-message span {
-  color: #5fbb53;
+.message-sender .message-time {
+  color: #5dbb52;
 }
 
 .message-panel {
