@@ -12,130 +12,65 @@ ws.addEventListener("message", async (e) => {
 
   const data = JSON.parse(e.data);
   const { message, fileType, filePath } = data;
-  const newFile = await loadFile(fileType, filePath);
 
-  // const messageHtml = `<div class="message message-recipient">
-  //                           <div class=${
-  //                             filePath === null && message !== ""
-  //                               ? "sent-message"
-  //                               : ""
-  //                           }
-  //                           ${
-  //                             filePath !== null && message === ""
-  //                               ? "sent-file"
-  //                               : ""
-  //                           }
-  //                           ${
-  //                             filePath !== null && message !== ""
-  //                               ? "sent-file-message"
-  //                               : ""
-  //                           }
-  //                           >
-  //                             ${
-  //                               fileType === "image"
-  //                                 ? // ? `<img width="240" height="160" src=${newPath} />`
-  //                                   newPath
-  //                                 : ""
-  //                             }
-  //                             ${
-  //                               fileType === "video"
-  //                                 ? `<video width="240" height="160" src=${filePath} muted autoplay playsinline controls></video>`
-  //                                 : ""
-  //                             }
-  //                             ${
-  //                               filePath === null && message !== ""
-  //                                 ? message
-  //                                 : ""
-  //                             }
-  //                             ${filePath !== null && message === "" ? "" : ""}
-  //                             ${
-  //                               filePath !== null && message !== ""
-  //                                 ? `<div class="sent-file-text">${message}</div>`
-  //                                 : ""
-  //                             }
-  //                             <span>${getMessageTime()}</span>
-  //                           </div>
-  //                         </div>`;
-  const messageHtml = newFile;
+  const htmlFile = await htmlFileLoad(fileType, filePath, message);
+  const time = getMessageTime();
+
+  const messageHtml = `<div class="message message-recipient">
+                        ${htmlFile !== null ? htmlFile : ""}
+                        ${
+                          message !== ""
+                            ? `<div class="message-text">${message}</div>`
+                            : ""
+                        }
+                        <div class=${
+                          message === ""
+                            ? "message-time-no-below-text"
+                            : "message-time"
+                        }>${time}</div>
+                      </div>`;
 
   document
     .getElementById("chatBody")
     .insertAdjacentHTML("beforeend", messageHtml);
 
   document.getElementById("chatBody").scrollIntoView(false);
-
-  // const textHtml =
-  //   message !== "" ? `<div class="sent-file-text">${message}</div>` : "";
-
-  // if (fileType !== null) {
-  //   let fileHtml = "";
-
-  //   const createElement = document.createElement(
-  //     `${fileType === "image" ? "img" : "video"}`
-  //   );
-  //   createElement.src = filePath;
-  //   createElement.addEventListener(
-  //     fileType === "image" ? "load" : "loadeddata",
-  //     () => {
-  //       fileHtml =
-  //         fileType === "image"
-  //           ? `<img width="240" height="160" src=${filePath} />`
-  //           : `<video width="240" height="160" src=${filePath} muted autoplay playsinline controls></video>`;
-
-  //       const messageHtml = `<div class="message message-recipient">
-  //                             <div class=${
-  //                               filePath !== null && message !== ""
-  //                                 ? "sent-file-message"
-  //                                 : "sent-message"
-  //                             }>
-  //                               ${fileHtml}
-  //                               ${textHtml}
-  //                               <span>${getMessageTime()}</span>
-  //                             </div>
-  //                           </div>`;
-
-  //       document
-  //         .getElementById("chatBody")
-  //         .insertAdjacentHTML("beforeend", messageHtml);
-
-  //       document.getElementById("chatBody").scrollIntoView(false);
-  //     }
-  //   );
-  // }
 });
 
-const loadFile = (fileType, filePath) => {
+const htmlFileLoad = (fileType, filePath, message) => {
+  if (fileType === null) return null;
+
   return new Promise((resolve, reject) => {
-    let html = "";
-    const createElement = document.createElement(
-      `${fileType === "image" ? "img" : "video"}`
-    );
-    createElement.src = filePath;
-    if (createElement.tagName === "IMG") {
-      html = `<img width="240" height="160" src=${filePath} />`;
+    let fileHtml = "";
+
+    if (fileType === "image") {
+      createElement = document.createElement("img");
     }
 
-    if (createElement.tagName === "VIDEO") {
-      html = `<video width="240" height="160" src=${filePath} muted autoplay playsinline controls></video>`;
+    if (fileType === "video") {
+      createElement = document.createElement("video");
     }
+
+    createElement.src = filePath;
 
     createElement.addEventListener(
       fileType === "image" ? "load" : "loadeddata",
       () => {
-        resolve(html);
+        fileHtml =
+          createElement.tagName === "IMG"
+            ? `<img width="240" height="160" ${
+                message !== "" ? "class=below-text" : ""
+              } src=${filePath} />`
+            : `<video width="240" height="160" ${
+                message !== "" ? "class=below-text" : ""
+              } src=${filePath} muted autoplay playsinline controls></video>`;
+
+        resolve(fileHtml);
       }
     );
     createElement.addEventListener("error", (e) => {
       reject(e);
     });
-    // const img = new Image();
-    // img.src = filePath;
-    // img.onload = () => {
-    //   resolve(img);
-    // };
-    // img.onerror = (e) => {
-    //   reject(e);
-    // };
   });
 };
 
@@ -195,28 +130,6 @@ function sendMessageToTheServer(message, file = null) {
 
   ws.send(JSON.stringify(jsonData));
 }
-
-// function renderHtml(fileType, filePath, message) {
-//   let fileHtml = "";
-//   let textHtml = "";
-
-//   if (fileType === null && message !== "") {
-//     console.log("файла нет, сообщение есть");
-//   }
-
-//   if (fileType !== null && message === "") {
-//     console.log("файл есть, сообщения нет");
-//   }
-
-//   if (fileType !== null && message !== "") {
-//     console.log("файл есть, сообщение есть");
-//   }
-
-//   const messageHtml = `<div class="message message-sender"></div>`;
-//   document
-//     .getElementById("chatBody")
-//     .insertAdjacentHTML("beforeend", messageHtml);
-// }
 
 function getMessageTime() {
   const currentDate = new Date();

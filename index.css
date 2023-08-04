@@ -181,8 +181,55 @@ input[type="text"] {
 }
 
 .message {
+  position: relative;
+  width: max-content;
   margin-bottom: 2px;
   display: flex;
+  flex-direction: column;
+}
+
+.message img {
+  border-radius: 10px;
+}
+
+.message .below-text {
+  border-radius: 10px 10px 0 0;
+}
+
+.message img + .message-text {
+  width: 100%;
+  border-radius: 0 0 14px 14px;
+}
+
+.message-time {
+  position: absolute;
+  right: 4px;
+  bottom: 4px;
+  color: rgb(163 172 182);
+}
+
+.message-time-no-below-text {
+  position: absolute;
+  right: 4px;
+  bottom: 4px;
+  padding: 5px 12px;
+  border-radius: 10px;
+  background-color: #0000005e;
+  color: white;
+}
+
+.message-recipient {
+  justify-content: flex-start;
+}
+
+.message-text {
+  width: max-content;
+  border-radius: 14px;
+  background-color: #effdde;
+}
+
+.message-recipient .message-text {
+  padding: 8px 56px 8px 12px;
 }
 
 .message-sender {
@@ -198,10 +245,6 @@ input[type="text"] {
   bottom: 5px;
   right: 14px;
   color: rgb(90 185 78);
-}
-
-.message-recipient {
-  justify-content: flex-start;
 }
 
 .message-recipient .sent-message {
@@ -293,7 +336,7 @@ input[type="text"] {
   margin-right: 12px;
 }
 
-.message-text {
+.input-message-text {
   height: 100%;
   border: none;
 }
