@@ -8,6 +8,7 @@ ws.addEventListener("open", () => {
 });
 
 ws.addEventListener("message", async (e) => {
+  console.log(e);
   hideChatEmptyMessage();
 
   const data = JSON.parse(e.data);
