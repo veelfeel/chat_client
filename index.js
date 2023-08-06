@@ -1,3 +1,13 @@
+window.addEventListener("DOMContentLoaded", () => {
+  const platform = navigator.userAgentData.platform;
+
+  if (platform !== "iOS" && platform !== "Android") {
+    document
+      .getElementById("chatWrapper")
+      .classList.add("chat-wrapper--windows");
+  }
+});
+
 const sender_id = (Date.now() / 1000) | 0;
 
 const ws = new WebSocket("wss://chat-cpwa.onrender.com");
@@ -36,6 +46,7 @@ ws.addEventListener("message", async (e) => {
     .insertAdjacentHTML("beforeend", messageHtml);
 
   document.getElementById("chatBody").scrollIntoView(false);
+  // document.querySelector(".message-panel").classList.add("visibility-hidden");
 });
 
 const htmlFileLoad = (fileType, filePath, message) => {
@@ -147,7 +158,7 @@ function hideChatPreviewBackground() {
 document.getElementById("textMessage").addEventListener("keydown", (e) => {
   const message = document.getElementById("textMessage").value;
 
-  if (e.code == "Enter" && message !== "") {
+  if ((e.code == "Enter" || e.code === "NumpadEnter") && message !== "") {
     hideChatEmptyMessage();
     sendMessageToTheServer(message);
 
