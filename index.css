@@ -254,7 +254,7 @@ input[type="text"] {
 
 .message-recipient .message-text {
   padding: 8px 56px 8px 12px;
-  padding: 100px;
+  /* padding: 100px; */
 }
 
 .message-sender {
@@ -263,7 +263,7 @@ input[type="text"] {
 
 .message-sender .message-text {
   padding: 8px 56px 8px 12px;
-  padding: 100px;
+  /* padding: 100px; */
   background-color: #effdde;
 }
 
