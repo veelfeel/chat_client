@@ -65,7 +65,7 @@ const htmlFileLoad = (fileType, filePath, message) => {
     createElement.src = filePath;
 
     createElement.addEventListener(
-      fileType === "image" ? "load" : "loadeddata",
+      fileType === "image" ? "load" : "progress",
       () => {
         fileHtml =
           createElement.tagName === "IMG"
@@ -78,6 +78,7 @@ const htmlFileLoad = (fileType, filePath, message) => {
         resolve(fileHtml);
       }
     );
+
     createElement.addEventListener("error", (e) => {
       reject(e);
     });
