@@ -210,7 +210,8 @@ input[type="text"] {
   object-fit: cover;
 }
 
-.message img {
+.message img,
+.message video {
   border-radius: 10px;
 }
 
