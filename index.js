@@ -18,7 +18,6 @@ ws.addEventListener("open", () => {
 });
 
 ws.addEventListener("message", async (e) => {
-  console.log(e);
   hideChatEmptyMessage();
 
   const data = JSON.parse(e.data);
@@ -46,7 +45,6 @@ ws.addEventListener("message", async (e) => {
     .insertAdjacentHTML("beforeend", messageHtml);
 
   document.getElementById("chatBody").scrollIntoView(false);
-  // document.querySelector(".message-panel").classList.add("visibility-hidden");
 });
 
 const htmlFileLoad = (fileType, filePath, message) => {
